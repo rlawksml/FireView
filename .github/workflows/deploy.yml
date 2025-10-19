@@ -11,29 +11,40 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      # 1) pnpm 설치/활성화 (권장: 10.x 고정)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.3
+
+      # 2) Node + pnpm 캐시
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Enable Corepack (for pnpm)
-        run: |
-          corepack enable
-          corepack prepare pnpm@10.18.3 --activate
+      # 3) 의존성 설치
+      #    (lock 파일 처음엔 없을 수 있어 frozen 제거)
+      - name: Install deps
+        run: pnpm install
 
-      - run: pnpm i --frozen-lockfile
-      - run: pnpm build
+      # 4) 빌드 (Vite)
+      - name: Build
+        run: pnpm build
 
+      # 5) Pages로 업로드
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
