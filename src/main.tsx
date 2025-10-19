@@ -1,16 +1,19 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import App from './App.tsx'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-import 'tailwindcss/tailwind.css'
+import './index.css'
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        {/* <Route path="/reports" element={<Reports />} />
+        <Route path="/globe" element={<Globe />} /> */}
+      </Routes>
+    </HashRouter>
+  </StrictMode>
 )
