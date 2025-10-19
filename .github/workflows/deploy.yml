@@ -27,7 +27,9 @@ jobs:
           cache: 'pnpm'
 
       - name: Enable Corepack (for pnpm)
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.18.3 --activate
 
       - run: pnpm i --frozen-lockfile
       - run: pnpm build
