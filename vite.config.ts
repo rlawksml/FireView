@@ -4,6 +4,6 @@ import tailwind from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/fireView/',
+  base: '/FireView/',
   plugins: [react(), tailwind()]
 })
